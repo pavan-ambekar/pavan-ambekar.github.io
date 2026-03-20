@@ -78,14 +78,11 @@
 \newcommand{\resumesection}[2]{%
   \vspace{6pt}%
   \begin{tikzpicture}
-    \node[inner sep=0pt] (icon) {%
-      \tikz{\node[inner sep=4pt, rounded corners=4pt,
-            fill=AccentGreen!12, draw=AccentGreen!30, line width=0.5pt,
-            text=AccentGreen, font=\small] {#1};}%
-    };
-    \node[right=6pt of icon, anchor=west, font=\large\bfseries\sffamily\color{BodyText}] {#2};
-    \node[right=6pt of icon, anchor=west, font=\large\bfseries\sffamily\color{BodyText},
-          xshift=\widthof{#2}+2pt, yshift=0pt] {};
+    \node[inner sep=4pt, rounded corners=4pt,
+          fill=AccentGreen!12, draw=AccentGreen!30, line width=0.5pt,
+          text=AccentGreen, font=\small] (icon) {#1};
+    \node[right=6pt of icon, anchor=west,
+          font=\large\bfseries\sffamily\color{BodyText}] {#2};
   \end{tikzpicture}%
   \par\vspace{-4pt}%
   {\color{RuleLine}\rule{\linewidth}{0.5pt}}%
