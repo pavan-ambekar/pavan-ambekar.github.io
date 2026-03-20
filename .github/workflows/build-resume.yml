@@ -22,7 +22,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: resume.tex
-          latexmk_use_lualatex: false   # uses pdflatex by default
+          # Full TeX Live — includes sourcesanspro, fontawesome5, tikz, mdframed, etc.
+          extra_packages: "texlive-fonts-extra texlive-latex-extra"
           args: -pdf -interaction=nonstopmode -halt-on-error
 
       - name: Upload resume.pdf as artifact
