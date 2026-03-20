@@ -1,0 +1,177 @@
+%% Pavan Ambekar — Resume
+%% Compile: pdflatex resume.tex
+
+\documentclass[10pt,letterpaper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  top=0.55in, bottom=0.55in,
+  left=0.65in, right=0.65in
+]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{microtype}
+
+% ── Typography ─────────────────────────────────────────────────────────────────
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Section heading style
+\titleformat{\section}
+  {\bfseries\large}
+  {}
+  {0pt}
+  {}
+  [\vspace{-6pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
+\titlespacing{\section}{0pt}{8pt}{4pt}
+
+% Tight bullet lists
+\setlist[itemize]{
+  leftmargin=1.4em,
+  topsep=2pt,
+  itemsep=1.5pt,
+  parsep=0pt,
+  label=\textbullet
+}
+
+% ── Helper macros ──────────────────────────────────────────────────────────────
+% \job{Company}{Stack}{Title}{Period}{Location}
+\newcommand{\job}[5]{%
+  \textbf{#1} \hfill \textit{\small #5}\\
+  \textit{\small Tech: #2}\\
+  \textbf{#3} \hfill \small #4\\
+}
+
+% ── Document ──────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── Header ────────────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries Pavan Ambekar}\\[4pt]
+  Bengaluru, India \textbar{}
+  \href{mailto:pavan.ambekarr@gmail.com}{pavan.ambekarr@gmail.com} \textbar{}
+  +91\,9036696269 \textbar{}
+  \href{https://linkedin.com/in/pavan-ambekar}{linkedin.com/in/pavan-ambekar} \textbar{}
+  \href{https://github.com/pavan-ambekar}{github.com/pavan-ambekar}
+\end{center}
+
+\vspace{2pt}
+
+% ── Professional Summary ──────────────────────────────────────────────────────
+\section{Professional Summary}
+
+Senior Full Stack Engineer with 7+ years of experience building scalable, cloud-native web
+applications using React and Python. Experienced in microservices-based systems, AWS deployments,
+and performance optimization for high-availability products. Also delivered AI-enabled features
+(LLM integrations) as part of modern product capabilities.
+
+% ── Technical Skills ──────────────────────────────────────────────────────────
+\section{Technical Skills}
+
+\begin{tabular}{@{}p{2.1in} p{\dimexpr\linewidth-2.2in}@{}}
+  \textbf{Languages}             & Python \textbullet{} TypeScript \textbullet{} JavaScript \\[2pt]
+  \textbf{Frontend}              & React \textbullet{} Next.js \textbullet{} Tailwind CSS \textbullet{} Micro Frontends \textbullet{} SSR/SSG \textbullet{} Accessibility (WCAG) \textbullet{} Webpack \\[2pt]
+  \textbf{Backend \& APIs}       & FastAPI \textbullet{} Django \textbullet{} REST APIs \textbullet{} GraphQL \textbullet{} Microservices \textbullet{} WebSockets \\[2pt]
+  \textbf{Data \& Messaging}     & PostgreSQL \textbullet{} MySQL \textbullet{} MongoDB \textbullet{} Redis \textbullet{} Apache Airflow \\[2pt]
+  \textbf{Cloud \& DevOps}       & AWS (EKS, ECS, SNS/SQS, S3, RDS, IAM) \textbullet{} Docker \textbullet{} Kubernetes \textbullet{} CI/CD \textbullet{} Ansible \textbullet{} GitOps \\[2pt]
+  \textbf{Security \& Observability} & JWT \textbullet{} OAuth2 \textbullet{} RBAC \textbullet{} CloudWatch \textbullet{} Prometheus \textbullet{} Grafana \\[2pt]
+  \textbf{AI \& Search}          & LLM API Integration \textbullet{} Vector Search \textbullet{} RAG System \\
+\end{tabular}
+
+% ── Professional Experience ───────────────────────────────────────────────────
+\section{Professional Experience}
+
+\job{Commonwealth Bank}{FastAPI, React, PostgreSQL, Ansible, Airflow, GitOps, K8s}
+    {Platform Engineer}{Apr 2025 -- Present}{Bengaluru, Karnataka}
+
+Build and operate platform services for regulated banking systems on AWS EKS with GitOps and
+observability.
+\begin{itemize}
+  \item Develop FastAPI microservices on AWS EKS and enhance React-based platform tooling,
+        improving reliability and release stability.
+  \item Implement monitoring and alerting using CloudWatch, Prometheus, and Grafana, improving
+        incident detection and reducing time to diagnose production issues.
+  \item Standardize deployments and environment configuration using GitOps and Ansible, reducing
+        configuration drift across environments.
+\end{itemize}
+
+\vspace{6pt}
+
+\job{Aspire Systems}{TypeScript, Next.js, Tailwind, FastAPI, MongoDB, EKS, SNS}
+    {Module Lead}{Jul 2023 -- Apr 2025}{Bengaluru, Karnataka}
+
+Led modernization of a high-traffic web platform, improving performance and release agility through
+micro-frontends.
+\begin{itemize}
+  \item Led a distributed team of 5 engineers, increasing delivery capacity by 75\% within 3 months
+        through structured onboarding and technical mentorship.
+  \item Built and optimized Next.js applications serving 500K+ monthly users, reducing load time
+        by 30\% through SSR optimization and performance tuning.
+  \item Implemented micro-frontend architecture enabling independent deployment of 5+ modules,
+        reducing release cycles by 25\% and minimizing downtime by 15\%.
+  \item Designed and deployed AWS-based microservices using EKS and SNS, improving scalability by
+        60\% and reducing service coupling by 35\%.
+\end{itemize}
+
+\vspace{6pt}
+
+\job{Sonata Software}{JavaScript, React, Zustand, Django, MongoDB, ECS, S3}
+    {Digital Engineer}{Aug 2021 -- Jul 2023}{Bengaluru, Karnataka}
+
+Expanded from frontend to full stack ownership on a high-availability ticketing system.
+\begin{itemize}
+  \item Developed and maintained a ferry ticketing platform processing 50K+ transactions per month
+        with 99.9\% uptime.
+  \item Expanded responsibilities to backend API development and integrations, improving data
+        handling efficiency by 40\%.
+  \item Led code reviews and enforced best practices, improving code quality by 15\%.
+\end{itemize}
+
+\vspace{6pt}
+
+\job{Raylog Industries}{JavaScript, Express, SCSS, React, Redux, MySQL, AWS}
+    {Web Developer}{Jan 2019 -- Jul 2021}{Bengaluru, Karnataka}
+
+Modernized React applications and built admin dashboards to improve performance and operational
+visibility.
+\begin{itemize}
+  \item Improved application performance by 45\% by refactoring a legacy React codebase into
+        modular components and upgrading dependencies.
+  \item Built real-time admin dashboards with interactive visualizations to improve operational
+        visibility.
+\end{itemize}
+
+% ── Education ─────────────────────────────────────────────────────────────────
+\section{Education}
+
+\textbf{Ballari Institute of Technology \& Management (BITM)} \hfill Ballari, Karnataka\\
+B.E., Electronics and Communication Engineering \hfill 2021
+
+\vspace{4pt}
+
+\textbf{HSK Polytechnic} \hfill Ballari, Karnataka\\
+Diploma, Electronics and Communication \hfill 2018
+
+% ── Certifications & Achievements ────────────────────────────────────────────
+\section{Certifications \& Achievements}
+
+\begin{itemize}[leftmargin=0pt, label={}]
+  \item \textbf{AppSec Champion} \textbar{} Secure Code Warrior -- 2025 \hfill \textit{Commonwealth Bank, Bengaluru}
+  \item \textbf{Performance Optimization Specialist} \textbar{} Internal Recognition for System Performance Improvements \hfill \textit{Commonwealth Bank, Bengaluru}
+  \item \textbf{Play To Win Award} \textbar{} For top performance and innovation in delivering impactful solutions \hfill \textit{Sonata Software, Bengaluru}
+  \item \textbf{Web Wizard Award} \textbar{} For excellence in web development and exceeding project goals \hfill \textit{Raylog Industries, Bengaluru}
+\end{itemize}
+
+% ── Languages ─────────────────────────────────────────────────────────────────
+\section{Languages}
+
+English \textbullet{} Hindi \textbullet{} Kannada \textbullet{} Telugu \textbullet{} Marathi
+
+\end{document}

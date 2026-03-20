@@ -1,0 +1,45 @@
+name: Build Resume PDF
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "resume.tex"
+      - ".github/workflows/build-resume.yml"
+  workflow_dispatch: # allow manual trigger from GitHub Actions UI
+
+jobs:
+  build_latex:
+    name: Compile LaTeX → PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile resume.tex with pdflatex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume.tex
+          latexmk_use_lualatex: false   # uses pdflatex by default
+          args: -pdf -interaction=nonstopmode -halt-on-error
+
+      - name: Upload resume.pdf as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdf
+          path: resume.pdf
+          retention-days: 90            # artifact kept for 90 days
+
+      # ── Optional: commit the generated PDF back into the repo ──────────────
+      # Uncomment the block below if you want resume.pdf tracked in git.
+      # Requires the default GITHUB_TOKEN; no extra secrets needed.
+      #
+      # - name: Commit PDF to repository
+      #   run: |
+      #     git config user.name  "github-actions[bot]"
+      #     git config user.email "github-actions[bot]@users.noreply.github.com"
+      #     git add resume.pdf
+      #     git diff --cached --quiet || git commit -m "ci: update resume.pdf [skip ci]"
+      #     git push
