@@ -123,16 +123,16 @@ function SectionHeading({ icon: Icon, title }: { icon: React.ElementType; title:
 
 function SkillCard({ icon: Icon, label, items }: { icon: React.ElementType; label: string; items: string[] }) {
   return (
-    <div className="p-4 rounded-lg border border-border bg-card hover:border-primary/40 hover:glow-primary transition-all duration-300 group">
+    <div className="p-4 rounded-lg border border-border bg-card active:border-primary/40 hover:border-primary/40 transition-all duration-300 group">
       <div className="flex items-center gap-2 mb-3">
         <Icon className="w-4 h-4 text-primary group-hover:text-accent transition-colors" />
         <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mono">{label}</span>
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {items.map((item) => (
           <span
             key={item}
-            className="px-2 py-0.5 text-xs rounded-md bg-secondary text-secondary-foreground border border-border/50 hover:border-primary/40 hover:text-primary transition-all duration-200 mono"
+            className="px-2.5 py-1 text-xs rounded-md bg-secondary text-secondary-foreground border border-border/50 mono"
           >
             {item}
           </span>
@@ -142,19 +142,19 @@ function SkillCard({ icon: Icon, label, items }: { icon: React.ElementType; labe
   );
 }
 
-function ExperienceCard({ job, index }: { job: typeof experience[0]; index: number }) {
+function ExperienceCard({ job }: { job: typeof experience[0] }) {
   return (
-    <div className="relative pl-8 pb-10 last:pb-0">
+    <div className="relative pl-6 sm:pl-8 pb-8 last:pb-0">
       {/* Timeline line */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/60 via-border to-transparent" />
       {/* Timeline dot */}
-      <div className={`absolute left-[-5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 ${job.current ? "bg-primary border-primary shadow-[0_0_8px_hsl(165_80%_55%/0.8)]" : "bg-muted border-border"}`} />
+      <div className={`absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full border-2 ${job.current ? "bg-primary border-primary shadow-[0_0_8px_hsl(165_80%_55%/0.8)]" : "bg-muted border-border"}`} />
 
-      <div className="group p-5 rounded-lg border border-border bg-card hover:border-primary/30 transition-all duration-300">
-        {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+      <div className="group p-4 sm:p-5 rounded-lg border border-border bg-card active:border-primary/30 hover:border-primary/30 transition-all duration-300">
+        {/* Header — stacks on mobile */}
+        <div className="flex flex-col gap-1 mb-3 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="font-bold text-base text-foreground">{job.company}</h3>
               {job.current && (
                 <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-primary/15 text-primary border border-primary/30 mono uppercase tracking-wider">
@@ -164,19 +164,20 @@ function ExperienceCard({ job, index }: { job: typeof experience[0]; index: numb
             </div>
             <p className="text-sm font-medium text-accent">{job.role}</p>
           </div>
-          <div className="text-right text-xs text-muted-foreground mono">
-            <div>{job.period}</div>
-            <div className="flex items-center justify-end gap-1 mt-0.5">
-              <MapPin className="w-3 h-3" />
+          <div className="flex flex-row sm:flex-col sm:text-right items-center sm:items-end gap-2 sm:gap-0.5 text-xs text-muted-foreground mono flex-wrap">
+            <span>{job.period}</span>
+            <span className="hidden sm:block">·</span>
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3 h-3 shrink-0" />
               {job.location}
-            </div>
+            </span>
           </div>
         </div>
 
         {/* Stack */}
         <div className="flex flex-wrap gap-1.5 mb-3">
           {job.stack.map((t) => (
-            <Badge key={t} variant="outline" className="text-[10px] px-1.5 py-0 font-mono border-border/70 text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors">
+            <Badge key={t} variant="outline" className="text-[10px] px-1.5 py-0.5 font-mono border-border/70 text-muted-foreground">
               {t}
             </Badge>
           ))}
@@ -185,9 +186,9 @@ function ExperienceCard({ job, index }: { job: typeof experience[0]; index: numb
         <p className="text-sm text-muted-foreground italic mb-3">{job.summary}</p>
 
         {/* Bullets */}
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {job.bullets.map((b, i) => (
-            <li key={i} className="flex gap-2 text-sm text-secondary-foreground">
+            <li key={i} className="flex gap-2 text-sm text-secondary-foreground leading-relaxed">
               <ChevronRight className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <span>{b}</span>
             </li>
