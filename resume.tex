@@ -1,5 +1,5 @@
-%% Pavan Ambekar — Resume
-%% Compile: pdflatex resume.tex
+%% Pavan Ambekar — Modern Developer Resume
+%% Compile: pdflatex resume.tex (requires TeX Live full)
 
 \documentclass[10pt,letterpaper]{article}
 
@@ -7,92 +7,208 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[
-  top=0.55in, bottom=0.55in,
-  left=0.65in, right=0.65in
+  top=0.5in, bottom=0.5in,
+  left=0.55in, right=0.55in
 ]{geometry}
+\usepackage{xcolor}
+\usepackage[default]{sourcesanspro}
+\usepackage{fontawesome5}
+\usepackage{tikz}
 \usepackage{enumitem}
-\usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
 \usepackage{parskip}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{microtype}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{etoolbox}
+
+% ── Color Palette ──────────────────────────────────────────────────────────────
+\definecolor{AccentGreen}{HTML}{00C896}   % primary mint green
+\definecolor{AccentBlue}{HTML}{38BDF8}    % cyan-blue accent
+\definecolor{HeaderBg}{HTML}{0D1117}      % near-black header
+\definecolor{SectionLine}{HTML}{00C896}   % section rule color
+\definecolor{BodyText}{HTML}{1E293B}      % dark slate body
+\definecolor{MutedText}{HTML}{64748B}     % muted/secondary text
+\definecolor{TagBg}{HTML}{E8F8F3}         % light tag background
+\definecolor{TagBorder}{HTML}{A7F3D0}     % tag border
+\definecolor{CardBg}{HTML}{F8FAFC}        % card/block bg
+\definecolor{RuleLine}{HTML}{CBD5E1}      % light separator
+\definecolor{TimelineDot}{HTML}{00C896}   % timeline dot
+\definecolor{CurrentBadgeBg}{HTML}{D1FAE5}
+\definecolor{CurrentBadgeText}{HTML}{065F46}
 
 % ── Typography ─────────────────────────────────────────────────────────────────
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
+\color{BodyText}
 
-% Section heading style
-\titleformat{\section}
-  {\bfseries\large}
-  {}
-  {0pt}
-  {}
-  [\vspace{-6pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
-\titlespacing{\section}{0pt}{8pt}{4pt}
-
-% Tight bullet lists
+% ── List Styles ────────────────────────────────────────────────────────────────
 \setlist[itemize]{
-  leftmargin=1.4em,
+  leftmargin=1.2em,
   topsep=2pt,
   itemsep=1.5pt,
   parsep=0pt,
-  label=\textbullet
+  label={\color{AccentGreen}\small\faChevronRight}
 }
 
-% ── Helper macros ──────────────────────────────────────────────────────────────
-% \job{Company}{Stack}{Title}{Period}{Location}
-\newcommand{\job}[5]{%
-  \textbf{#1} \hfill \textit{\small #5}\\
-  \textit{\small Tech: #2}\\
-  \textbf{#3} \hfill \small #4\\
+% ── Helper: Tag Pill ───────────────────────────────────────────────────────────
+\newcommand{\tag}[1]{%
+  \tikz[baseline=(t.base)]{
+    \node[inner sep=2.5pt 4pt, rounded corners=3pt,
+          fill=TagBg, draw=TagBorder, line width=0.4pt,
+          font=\sffamily\tiny\color{MutedText}] (t) {#1};
+  }%
+}
+
+% ── Helper: Current Badge ──────────────────────────────────────────────────────
+\newcommand{\currentbadge}{%
+  \tikz[baseline=(t.base)]{
+    \node[inner sep=2pt 5pt, rounded corners=8pt,
+          fill=CurrentBadgeBg,
+          font=\sffamily\tiny\bfseries\color{CurrentBadgeText}] (t) {CURRENT};
+  }%
+}
+
+% ── Helper: Section Heading ────────────────────────────────────────────────────
+\newcommand{\resumesection}[2]{%
+  \vspace{6pt}%
+  \begin{tikzpicture}
+    \node[inner sep=0pt] (icon) {%
+      \tikz{\node[inner sep=4pt, rounded corners=4pt,
+            fill=AccentGreen!12, draw=AccentGreen!30, line width=0.5pt,
+            text=AccentGreen, font=\small] {#1};}%
+    };
+    \node[right=6pt of icon, anchor=west, font=\large\bfseries\sffamily\color{BodyText}] {#2};
+    \node[right=6pt of icon, anchor=west, font=\large\bfseries\sffamily\color{BodyText},
+          xshift=\widthof{#2}+2pt, yshift=0pt] {};
+  \end{tikzpicture}%
+  \par\vspace{-4pt}%
+  {\color{RuleLine}\rule{\linewidth}{0.5pt}}%
+  \vspace{4pt}%
+}
+
+% ── Helper: Job Entry ──────────────────────────────────────────────────────────
+% \jobentry{Company}{Role}{Period}{Location}{Stack...}{Summary}{current?}
+\newcommand{\jobentry}[7]{%
+  \begin{minipage}{\linewidth}
+  % Timeline dot
+  \begin{tikzpicture}[remember picture]
+    \fill[TimelineDot] (0,0) circle (3.5pt);
+    \ifstrempty{#7}{}{%
+      \fill[AccentGreen!30] (0,0) circle (5pt);
+      \fill[TimelineDot] (0,0) circle (3pt);
+    }%
+  \end{tikzpicture}%
+  \hspace{6pt}%
+  % Company + role row
+  {\large\bfseries\color{BodyText} #1}%
+  \ifstrempty{#7}{}{\hspace{5pt}\currentbadge}%
+  \hfill{\small\ttfamily\color{MutedText} #3}\\[1pt]
+  \hspace{14pt}{\color{AccentBlue}\bfseries\small #2}%
+  \hfill{\small\color{MutedText}\faMapMarker*\,#4}\\[3pt]
+  % Stack tags
+  \hspace{14pt}#5\\[3pt]
+  % Summary line
+  \hspace{14pt}{\small\itshape\color{MutedText} #6}
+  \end{minipage}%
 }
 
 % ── Document ──────────────────────────────────────────────────────────────────
 \begin{document}
 
-% ── Header ────────────────────────────────────────────────────────────────────
-\begin{center}
-  {\LARGE\bfseries Pavan Ambekar}\\[4pt]
-  Bengaluru, India \textbar{}
-  \href{mailto:pavan.ambekarr@gmail.com}{pavan.ambekarr@gmail.com} \textbar{}
-  +91\,9036696269 \textbar{}
-  \href{https://linkedin.com/in/pavan-ambekar}{linkedin.com/in/pavan-ambekar} \textbar{}
-  \href{https://github.com/pavan-ambekar}{github.com/pavan-ambekar}
-\end{center}
+% ═══════════════════════════════════════════════════════════════════════════════
+% HEADER — dark full-width banner
+% ═══════════════════════════════════════════════════════════════════════════════
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[HeaderBg]
+    ([xshift=-0.55in, yshift=0.5in]current page.north west)
+    rectangle
+    ([xshift=0.55in, yshift=-1.45in]current page.north east);
+  % Subtle accent stripe at the bottom of the header
+  \fill[AccentGreen]
+    ([xshift=-0.55in, yshift=-1.45in]current page.north west)
+    rectangle
+    ([xshift=0.55in, yshift=-1.47in]current page.north east);
+\end{tikzpicture}
 
-\vspace{2pt}
+\vspace{-4pt}
 
-% ── Professional Summary ──────────────────────────────────────────────────────
-\section{Professional Summary}
+% Header content (white text on dark bg)
+\begin{minipage}[t]{0.58\linewidth}
+  {\fontsize{26}{30}\selectfont\bfseries\color{white} Pavan Ambekar}\\[3pt]
+  {\color{AccentGreen}\large\bfseries\ttfamily Senior Full Stack Engineer}\\[2pt]
+  {\small\color{white!70!HeaderBg}\faMapMarker*\; Bengaluru, India
+   \quad\textbullet\quad
+   \color{AccentGreen!80} 7+ yrs experience}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.38\linewidth}
+  \raggedleft
+  \vspace{2pt}
+  {\small\color{white!80!HeaderBg}
+    \href{mailto:pavan.ambekarr@gmail.com}{%
+      \faEnvelope\;\texttt{pavan.ambekarr@gmail.com}}\\[3pt]
+    \faPhone\;\texttt{+91\,9036696269}\\[3pt]
+    \href{https://linkedin.com/in/pavan-ambekar}{%
+      \faLinkedin\;\texttt{linkedin.com/in/pavan-ambekar}}\\[3pt]
+    \href{https://github.com/pavan-ambekar}{%
+      \faGithub\;\texttt{github.com/pavan-ambekar}}%
+  }
+\end{minipage}
 
-Senior Full Stack Engineer with 7+ years of experience building scalable, cloud-native web
-applications using React and Python. Experienced in microservices-based systems, AWS deployments,
-and performance optimization for high-availability products. Also delivered AI-enabled features
-(LLM integrations) as part of modern product capabilities.
+\vspace{14pt}
 
-% ── Technical Skills ──────────────────────────────────────────────────────────
-\section{Technical Skills}
+% ═══════════════════════════════════════════════════════════════════════════════
+% PROFESSIONAL SUMMARY
+% ═══════════════════════════════════════════════════════════════════════════════
+\resumesection{\faUser}{Professional Summary}
 
-\begin{tabular}{@{}p{2.1in} p{\dimexpr\linewidth-2.2in}@{}}
-  \textbf{Languages}             & Python \textbullet{} TypeScript \textbullet{} JavaScript \\[2pt]
-  \textbf{Frontend}              & React \textbullet{} Next.js \textbullet{} Tailwind CSS \textbullet{} Micro Frontends \textbullet{} SSR/SSG \textbullet{} Accessibility (WCAG) \textbullet{} Webpack \\[2pt]
-  \textbf{Backend \& APIs}       & FastAPI \textbullet{} Django \textbullet{} REST APIs \textbullet{} GraphQL \textbullet{} Microservices \textbullet{} WebSockets \\[2pt]
-  \textbf{Data \& Messaging}     & PostgreSQL \textbullet{} MySQL \textbullet{} MongoDB \textbullet{} Redis \textbullet{} Apache Airflow \\[2pt]
-  \textbf{Cloud \& DevOps}       & AWS (EKS, ECS, SNS/SQS, S3, RDS, IAM) \textbullet{} Docker \textbullet{} Kubernetes \textbullet{} CI/CD \textbullet{} Ansible \textbullet{} GitOps \\[2pt]
-  \textbf{Security \& Observability} & JWT \textbullet{} OAuth2 \textbullet{} RBAC \textbullet{} CloudWatch \textbullet{} Prometheus \textbullet{} Grafana \\[2pt]
-  \textbf{AI \& Search}          & LLM API Integration \textbullet{} Vector Search \textbullet{} RAG System \\
+\small Senior Full Stack Engineer with \textbf{\color{AccentGreen}7+ years} building scalable, cloud-native web
+applications using \textbf{React} and \textbf{Python}. Experienced in microservices-based systems, AWS
+deployments, and performance optimization for high-availability products. Delivered
+\textbf{AI-enabled features} (LLM integrations) as part of modern product capabilities.
+
+\vspace{4pt}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+% TECHNICAL SKILLS
+% ═══════════════════════════════════════════════════════════════════════════════
+\resumesection{\faCode}{Technical Skills}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{} >{\bfseries\small\color{BodyText}} p{1.75in}
+                    >{\small\color{MutedText}}   p{\dimexpr\linewidth-1.85in} @{}}
+Languages         & Python \textbullet{} TypeScript \textbullet{} JavaScript \\
+Frontend          & React \textbullet{} Next.js \textbullet{} Tailwind CSS \textbullet{} Micro Frontends \textbullet{} SSR/SSG \textbullet{} Accessibility (WCAG) \textbullet{} Webpack \\
+Backend \& APIs   & FastAPI \textbullet{} Django \textbullet{} REST APIs \textbullet{} GraphQL \textbullet{} Microservices \textbullet{} WebSockets \\
+Data \& Messaging & PostgreSQL \textbullet{} MySQL \textbullet{} MongoDB \textbullet{} Redis \textbullet{} Apache Airflow \\
+Cloud \& DevOps   & AWS (EKS, ECS, SNS/SQS, S3, RDS, IAM) \textbullet{} Docker \textbullet{} Kubernetes \textbullet{} CI/CD \textbullet{} Ansible \textbullet{} GitOps \\
+Security \& Obs.  & JWT \textbullet{} OAuth2 \textbullet{} RBAC \textbullet{} CloudWatch \textbullet{} Prometheus \textbullet{} Grafana \\
+AI \& Search      & LLM API Integration \textbullet{} Vector Search \textbullet{} RAG System \\
 \end{tabular}
+\renewcommand{\arraystretch}{1}
 
-% ── Professional Experience ───────────────────────────────────────────────────
-\section{Professional Experience}
+\vspace{4pt}
 
-\job{Commonwealth Bank}{FastAPI, React, PostgreSQL, Ansible, Airflow, GitOps, K8s}
-    {Platform Engineer}{Apr 2025 -- Present}{Bengaluru, Karnataka}
+% ═══════════════════════════════════════════════════════════════════════════════
+% PROFESSIONAL EXPERIENCE
+% ═══════════════════════════════════════════════════════════════════════════════
+\resumesection{\faTerminal}{Professional Experience}
 
-Build and operate platform services for regulated banking systems on AWS EKS with GitOps and
-observability.
+% ── Commonwealth Bank ──────────────────────────────────────────────────────────
+\jobentry{Commonwealth Bank}%
+  {Platform Engineer}%
+  {Apr 2025\,--\,Present}%
+  {Bengaluru, Karnataka}%
+  {\tag{FastAPI}\tag{React}\tag{PostgreSQL}\tag{Ansible}\tag{Airflow}\tag{GitOps}\tag{Kubernetes}}%
+  {Build and operate platform services for regulated banking systems on AWS EKS with GitOps and observability.}%
+  {current}
+
+\vspace{3pt}
 \begin{itemize}
   \item Develop FastAPI microservices on AWS EKS and enhance React-based platform tooling,
         improving reliability and release stability.
@@ -102,76 +218,112 @@ observability.
         configuration drift across environments.
 \end{itemize}
 
-\vspace{6pt}
+\vspace{5pt}
 
-\job{Aspire Systems}{TypeScript, Next.js, Tailwind, FastAPI, MongoDB, EKS, SNS}
-    {Module Lead}{Jul 2023 -- Apr 2025}{Bengaluru, Karnataka}
+% ── Aspire Systems ─────────────────────────────────────────────────────────────
+\jobentry{Aspire Systems}%
+  {Module Lead}%
+  {Jul 2023\,--\,Apr 2025}%
+  {Bengaluru, Karnataka}%
+  {\tag{TypeScript}\tag{Next.js}\tag{Tailwind CSS}\tag{FastAPI}\tag{MongoDB}\tag{AWS EKS}\tag{SNS}}%
+  {Led modernization of a high-traffic web platform through micro-frontends, improving performance and release agility.}%
+  {}
 
-Led modernization of a high-traffic web platform, improving performance and release agility through
-micro-frontends.
+\vspace{3pt}
 \begin{itemize}
-  \item Led a distributed team of 5 engineers, increasing delivery capacity by 75\% within 3 months
-        through structured onboarding and technical mentorship.
-  \item Built and optimized Next.js applications serving 500K+ monthly users, reducing load time
-        by 30\% through SSR optimization and performance tuning.
+  \item Led a distributed team of 5 engineers, increasing delivery capacity by \textbf{75\%}
+        within 3 months through structured onboarding and technical mentorship.
+  \item Built Next.js applications serving \textbf{500K+} monthly users, reducing load time by
+        \textbf{30\%} through SSR optimization and performance tuning.
   \item Implemented micro-frontend architecture enabling independent deployment of 5+ modules,
-        reducing release cycles by 25\% and minimizing downtime by 15\%.
-  \item Designed and deployed AWS-based microservices using EKS and SNS, improving scalability by
-        60\% and reducing service coupling by 35\%.
+        reducing release cycles by \textbf{25\%} and minimizing downtime by \textbf{15\%}.
+  \item Designed AWS-based microservices using EKS and SNS, improving scalability by \textbf{60\%}
+        and reducing service coupling by \textbf{35\%}.
 \end{itemize}
 
-\vspace{6pt}
+\vspace{5pt}
 
-\job{Sonata Software}{JavaScript, React, Zustand, Django, MongoDB, ECS, S3}
-    {Digital Engineer}{Aug 2021 -- Jul 2023}{Bengaluru, Karnataka}
+% ── Sonata Software ────────────────────────────────────────────────────────────
+\jobentry{Sonata Software}%
+  {Digital Engineer}%
+  {Aug 2021\,--\,Jul 2023}%
+  {Bengaluru, Karnataka}%
+  {\tag{JavaScript}\tag{React}\tag{Zustand}\tag{Django}\tag{MongoDB}\tag{AWS ECS}\tag{S3}}%
+  {Expanded from frontend to full stack ownership on a high-availability ticketing system.}%
+  {}
 
-Expanded from frontend to full stack ownership on a high-availability ticketing system.
+\vspace{3pt}
 \begin{itemize}
-  \item Developed and maintained a ferry ticketing platform processing 50K+ transactions per month
-        with 99.9\% uptime.
-  \item Expanded responsibilities to backend API development and integrations, improving data
-        handling efficiency by 40\%.
-  \item Led code reviews and enforced best practices, improving code quality by 15\%.
+  \item Developed a ferry ticketing platform processing \textbf{50K+} transactions/month with \textbf{99.9\%} uptime.
+  \item Expanded to backend API development and integrations, improving data handling efficiency by \textbf{40\%}.
+  \item Led code reviews and enforced best practices, improving code quality by \textbf{15\%}.
 \end{itemize}
 
-\vspace{6pt}
+\vspace{5pt}
 
-\job{Raylog Industries}{JavaScript, Express, SCSS, React, Redux, MySQL, AWS}
-    {Web Developer}{Jan 2019 -- Jul 2021}{Bengaluru, Karnataka}
+% ── Raylog Industries ──────────────────────────────────────────────────────────
+\jobentry{Raylog Industries}%
+  {Web Developer}%
+  {Jan 2019\,--\,Jul 2021}%
+  {Bengaluru, Karnataka}%
+  {\tag{JavaScript}\tag{React}\tag{Redux}\tag{Express}\tag{MySQL}\tag{SCSS}\tag{AWS}}%
+  {Modernized React applications and built admin dashboards for performance and operational visibility.}%
+  {}
 
-Modernized React applications and built admin dashboards to improve performance and operational
-visibility.
+\vspace{3pt}
 \begin{itemize}
-  \item Improved application performance by 45\% by refactoring a legacy React codebase into
-        modular components and upgrading dependencies.
+  \item Improved application performance by \textbf{45\%} by refactoring legacy React codebase
+        into modular components and upgrading dependencies.
   \item Built real-time admin dashboards with interactive visualizations to improve operational
         visibility.
 \end{itemize}
 
-% ── Education ─────────────────────────────────────────────────────────────────
-\section{Education}
-
-\textbf{Ballari Institute of Technology \& Management (BITM)} \hfill Ballari, Karnataka\\
-B.E., Electronics and Communication Engineering \hfill 2021
-
 \vspace{4pt}
 
-\textbf{HSK Polytechnic} \hfill Ballari, Karnataka\\
-Diploma, Electronics and Communication \hfill 2018
+% ═══════════════════════════════════════════════════════════════════════════════
+% EDUCATION  +  CERTIFICATIONS  (side by side)
+% ═══════════════════════════════════════════════════════════════════════════════
+\begin{minipage}[t]{0.47\linewidth}
+  \resumesection{\faGraduationCap}{Education}
 
-% ── Certifications & Achievements ────────────────────────────────────────────
-\section{Certifications \& Achievements}
+  \textbf{Ballari Institute of Technology \& Management}\\
+  {\small\color{AccentBlue} B.E., Electronics \& Communication Eng.}\\
+  {\small\color{MutedText}\faCalendar*\;2021 \quad \faMapMarker*\;Ballari, Karnataka}
 
-\begin{itemize}[leftmargin=0pt, label={}]
-  \item \textbf{AppSec Champion} \textbar{} Secure Code Warrior -- 2025 \hfill \textit{Commonwealth Bank, Bengaluru}
-  \item \textbf{Performance Optimization Specialist} \textbar{} Internal Recognition for System Performance Improvements \hfill \textit{Commonwealth Bank, Bengaluru}
-  \item \textbf{Play To Win Award} \textbar{} For top performance and innovation in delivering impactful solutions \hfill \textit{Sonata Software, Bengaluru}
-  \item \textbf{Web Wizard Award} \textbar{} For excellence in web development and exceeding project goals \hfill \textit{Raylog Industries, Bengaluru}
-\end{itemize}
+  \vspace{6pt}
 
-% ── Languages ─────────────────────────────────────────────────────────────────
-\section{Languages}
+  \textbf{HSK Polytechnic}\\
+  {\small\color{AccentBlue} Diploma, Electronics \& Communication}\\
+  {\small\color{MutedText}\faCalendar*\;2018 \quad \faMapMarker*\;Ballari, Karnataka}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.50\linewidth}
+  \resumesection{\faTrophy}{Certifications \& Achievements}
 
-English \textbullet{} Hindi \textbullet{} Kannada \textbullet{} Telugu \textbullet{} Marathi
+  \begin{itemize}[leftmargin=1em, topsep=0pt, itemsep=3pt]
+    \item {\small\textbf{AppSec Champion} --- Secure Code Warrior 2025}\\
+          {\footnotesize\color{MutedText} Commonwealth Bank, Bengaluru}
+    \item {\small\textbf{Performance Optimization Specialist}}\\
+          {\footnotesize\color{MutedText} Commonwealth Bank, Bengaluru}
+    \item {\small\textbf{Play To Win Award}}\\
+          {\footnotesize\color{MutedText} Sonata Software, Bengaluru}
+    \item {\small\textbf{Web Wizard Award}}\\
+          {\footnotesize\color{MutedText} Raylog Industries, Bengaluru}
+  \end{itemize}
+\end{minipage}
+
+\vspace{6pt}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+% LANGUAGES
+% ═══════════════════════════════════════════════════════════════════════════════
+\resumesection{\faLanguage}{Languages}
+{\small\color{MutedText}
+  \tag{English}\hspace{2pt}
+  \tag{Hindi}\hspace{2pt}
+  \tag{Kannada}\hspace{2pt}
+  \tag{Telugu}\hspace{2pt}
+  \tag{Marathi}%
+}
 
 \end{document}
