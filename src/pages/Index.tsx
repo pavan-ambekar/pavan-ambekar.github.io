@@ -285,19 +285,19 @@ const Index = () => {
         </section>
 
         {/* ── Education ───────────────────────────────────────────────────────── */}
-        <section className="mb-12">
+        <section className="mb-10 sm:mb-12">
           <SectionHeading icon={GraduationCap} title="Education" />
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { degree: "B.E., Electronics & Communication Engineering", school: "Ballari Institute of Technology & Management (BITM)", year: "2021", location: "Ballari, Karnataka" },
               { degree: "Diploma, Electronics & Communication", school: "HSK Polytechnic", year: "2018", location: "Ballari, Karnataka" },
             ].map((edu) => (
-              <div key={edu.school} className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-all duration-300">
-                <p className="text-sm font-semibold text-foreground">{edu.degree}</p>
-                <p className="text-sm text-accent mt-0.5">{edu.school}</p>
-                <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground mono">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{edu.location}</span>
-                  <span>{edu.year}</span>
+              <div key={edu.school} className="p-4 rounded-lg border border-border bg-card transition-all duration-300">
+                <p className="text-sm font-semibold text-foreground leading-snug">{edu.degree}</p>
+                <p className="text-sm text-accent mt-1">{edu.school}</p>
+                <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground mono">
+                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3 shrink-0" />{edu.location}</span>
+                  <span className="font-semibold">{edu.year}</span>
                 </div>
               </div>
             ))}
@@ -305,17 +305,17 @@ const Index = () => {
         </section>
 
         {/* ── Certifications ──────────────────────────────────────────────────── */}
-        <section className="mb-12">
+        <section className="mb-10 sm:mb-12">
           <SectionHeading icon={Award} title="Certifications & Achievements" />
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {certifications.map((c) => (
-              <div key={c.title} className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-all group duration-300">
-                <div className="flex items-start gap-2">
-                  <Award className="w-4 h-4 text-primary shrink-0 mt-0.5 group-hover:text-accent transition-colors" />
+              <div key={c.title} className="p-4 rounded-lg border border-border bg-card transition-all duration-300">
+                <div className="flex items-start gap-3">
+                  <Award className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">{c.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{c.issuer}</p>
-                    <p className="text-xs text-primary/70 mono mt-1">{c.org}</p>
+                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.issuer}</p>
+                    <p className="text-xs text-primary/70 mono mt-1.5">{c.org}</p>
                   </div>
                 </div>
               </div>
@@ -328,7 +328,7 @@ const Index = () => {
           <SectionHeading icon={Languages} title="Languages" />
           <div className="flex flex-wrap gap-2">
             {["English", "Hindi", "Kannada", "Telugu", "Marathi"].map((lang) => (
-              <span key={lang} className="px-3 py-1.5 rounded-md border border-border bg-card text-sm text-secondary-foreground hover:border-primary/40 hover:text-primary transition-all duration-200 mono">
+              <span key={lang} className="px-4 py-2.5 rounded-md border border-border bg-card text-sm text-secondary-foreground mono min-h-[44px] flex items-center">
                 {lang}
               </span>
             ))}
@@ -337,13 +337,16 @@ const Index = () => {
 
         {/* ── Footer ──────────────────────────────────────────────────────────── */}
         <footer className="text-center pt-6 border-t border-border/40">
-          <p className="text-xs text-muted-foreground mono">
+          <a
+            href="https://github.com/pavan-ambekar"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground mono hover:text-primary active:text-primary transition-colors py-2 px-3 rounded-md min-h-[44px]"
+          >
             <span className="text-primary/60">{"// "}</span>
-            Built with React · Source on{" "}
-            <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
-              GitHub <ExternalLink className="w-3 h-3" />
-            </a>
-          </p>
+            Built with React · GitHub
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </footer>
 
       </div>
