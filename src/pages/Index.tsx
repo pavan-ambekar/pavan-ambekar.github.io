@@ -123,16 +123,16 @@ function SectionHeading({ icon: Icon, title }: { icon: React.ElementType; title:
 
 function SkillCard({ icon: Icon, label, items }: { icon: React.ElementType; label: string; items: string[] }) {
   return (
-    <div className="p-4 rounded-lg border border-border bg-card hover:border-primary/40 hover:glow-primary transition-all duration-300 group">
+    <div className="p-4 rounded-lg border border-border bg-card active:border-primary/40 hover:border-primary/40 transition-all duration-300 group">
       <div className="flex items-center gap-2 mb-3">
         <Icon className="w-4 h-4 text-primary group-hover:text-accent transition-colors" />
         <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mono">{label}</span>
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {items.map((item) => (
           <span
             key={item}
-            className="px-2 py-0.5 text-xs rounded-md bg-secondary text-secondary-foreground border border-border/50 hover:border-primary/40 hover:text-primary transition-all duration-200 mono"
+            className="px-2.5 py-1 text-xs rounded-md bg-secondary text-secondary-foreground border border-border/50 mono"
           >
             {item}
           </span>
@@ -142,19 +142,19 @@ function SkillCard({ icon: Icon, label, items }: { icon: React.ElementType; labe
   );
 }
 
-function ExperienceCard({ job, index }: { job: typeof experience[0]; index: number }) {
+function ExperienceCard({ job }: { job: typeof experience[0] }) {
   return (
-    <div className="relative pl-8 pb-10 last:pb-0">
+    <div className="relative pl-6 sm:pl-8 pb-8 last:pb-0">
       {/* Timeline line */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/60 via-border to-transparent" />
       {/* Timeline dot */}
-      <div className={`absolute left-[-5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 ${job.current ? "bg-primary border-primary shadow-[0_0_8px_hsl(165_80%_55%/0.8)]" : "bg-muted border-border"}`} />
+      <div className={`absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full border-2 ${job.current ? "bg-primary border-primary shadow-[0_0_8px_hsl(165_80%_55%/0.8)]" : "bg-muted border-border"}`} />
 
-      <div className="group p-5 rounded-lg border border-border bg-card hover:border-primary/30 transition-all duration-300">
-        {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+      <div className="group p-4 sm:p-5 rounded-lg border border-border bg-card active:border-primary/30 hover:border-primary/30 transition-all duration-300">
+        {/* Header — stacks on mobile */}
+        <div className="flex flex-col gap-1 mb-3 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="font-bold text-base text-foreground">{job.company}</h3>
               {job.current && (
                 <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-primary/15 text-primary border border-primary/30 mono uppercase tracking-wider">
@@ -164,19 +164,20 @@ function ExperienceCard({ job, index }: { job: typeof experience[0]; index: numb
             </div>
             <p className="text-sm font-medium text-accent">{job.role}</p>
           </div>
-          <div className="text-right text-xs text-muted-foreground mono">
-            <div>{job.period}</div>
-            <div className="flex items-center justify-end gap-1 mt-0.5">
-              <MapPin className="w-3 h-3" />
+          <div className="flex flex-row sm:flex-col sm:text-right items-center sm:items-end gap-2 sm:gap-0.5 text-xs text-muted-foreground mono flex-wrap">
+            <span>{job.period}</span>
+            <span className="hidden sm:block">·</span>
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3 h-3 shrink-0" />
               {job.location}
-            </div>
+            </span>
           </div>
         </div>
 
         {/* Stack */}
         <div className="flex flex-wrap gap-1.5 mb-3">
           {job.stack.map((t) => (
-            <Badge key={t} variant="outline" className="text-[10px] px-1.5 py-0 font-mono border-border/70 text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors">
+            <Badge key={t} variant="outline" className="text-[10px] px-1.5 py-0.5 font-mono border-border/70 text-muted-foreground">
               {t}
             </Badge>
           ))}
@@ -185,9 +186,9 @@ function ExperienceCard({ job, index }: { job: typeof experience[0]; index: numb
         <p className="text-sm text-muted-foreground italic mb-3">{job.summary}</p>
 
         {/* Bullets */}
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {job.bullets.map((b, i) => (
-            <li key={i} className="flex gap-2 text-sm text-secondary-foreground">
+            <li key={i} className="flex gap-2 text-sm text-secondary-foreground leading-relaxed">
               <ChevronRight className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <span>{b}</span>
             </li>
@@ -206,46 +207,49 @@ const Index = () => {
       <div className="fixed top-0 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
       <div className="fixed bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-4xl mx-auto px-4 py-12 sm:px-8">
+      <div className="relative max-w-4xl mx-auto px-4 py-8 sm:px-6 sm:py-12">
 
         {/* ── Header ────────────────────────────────────────────────────────── */}
-        <header className="mb-12">
+        <header className="mb-10 sm:mb-12">
           {/* Prompt prefix */}
-          <div className="mono text-sm text-primary/60 mb-3 flex items-center gap-2">
-            <Terminal className="w-4 h-4" />
-            <span>~/pavan-ambekar</span>
-            <span className="text-muted-foreground">$</span>
-            <span className="text-foreground">cat resume.json</span>
+          <div className="mono text-xs sm:text-sm text-primary/60 mb-3 flex items-center gap-2 overflow-hidden">
+            <Terminal className="w-4 h-4 shrink-0" />
+            <span className="truncate">~/pavan-ambekar <span className="text-muted-foreground">$</span> cat resume.json</span>
           </div>
 
-          <div className="p-6 rounded-xl border border-primary/20 bg-card glow-primary">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-1">
-                  <span className="text-gradient-primary">Pavan Ambekar</span>
-                </h1>
-                <p className="text-base font-semibold text-accent mono tracking-wide">Senior Full Stack Engineer</p>
-                <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5" /> Bengaluru, India
-                </p>
-              </div>
-              <div className="flex flex-col gap-1.5 text-sm mono">
-                <a href="mailto:pavan.ambekarr@gmail.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Mail className="w-3.5 h-3.5" /> pavan.ambekarr@gmail.com
-                </a>
-                <a href="tel:+919036696269" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Phone className="w-3.5 h-3.5" /> +91 9036696269
-                </a>
-                <a href="https://linkedin.com/in/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Linkedin className="w-3.5 h-3.5" /> linkedin.com/in/pavan-ambekar
-                </a>
-                <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Github className="w-3.5 h-3.5" /> github.com/pavan-ambekar
-                </a>
-              </div>
+          <div className="p-4 sm:p-6 rounded-xl border border-primary/20 bg-card glow-primary">
+            {/* Name block — full width on mobile */}
+            <div className="mb-4">
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-1">
+                <span className="text-gradient-primary">Pavan Ambekar</span>
+              </h1>
+              <p className="text-sm sm:text-base font-semibold text-accent mono tracking-wide">Senior Full Stack Engineer</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 shrink-0" /> Bengaluru, India
+              </p>
             </div>
 
-            <Separator className="my-4 bg-border/60" />
+            {/* Contact links — 2-col grid on mobile for better touch targets */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 mb-4">
+              <a href="mailto:pavan.ambekarr@gmail.com" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Mail className="w-4 h-4 shrink-0" />
+                <span className="truncate">pavan.ambekarr@gmail.com</span>
+              </a>
+              <a href="tel:+919036696269" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>+91 9036696269</span>
+              </a>
+              <a href="https://linkedin.com/in/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Linkedin className="w-4 h-4 shrink-0" />
+                <span className="truncate">linkedin.com/in/pavan-ambekar</span>
+              </a>
+              <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Github className="w-4 h-4 shrink-0" />
+                <span>github.com/pavan-ambekar</span>
+              </a>
+            </div>
+
+            <Separator className="my-3 bg-border/60" />
 
             <p className="text-sm leading-relaxed text-secondary-foreground">
               Senior Full Stack Engineer with{" "}
@@ -274,26 +278,26 @@ const Index = () => {
         <section className="mb-12">
           <SectionHeading icon={Terminal} title="Professional Experience" />
           <div>
-            {experience.map((job, i) => (
-              <ExperienceCard key={job.company} job={job} index={i} />
+            {experience.map((job) => (
+              <ExperienceCard key={job.company} job={job} />
             ))}
           </div>
         </section>
 
         {/* ── Education ───────────────────────────────────────────────────────── */}
-        <section className="mb-12">
+        <section className="mb-10 sm:mb-12">
           <SectionHeading icon={GraduationCap} title="Education" />
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { degree: "B.E., Electronics & Communication Engineering", school: "Ballari Institute of Technology & Management (BITM)", year: "2021", location: "Ballari, Karnataka" },
               { degree: "Diploma, Electronics & Communication", school: "HSK Polytechnic", year: "2018", location: "Ballari, Karnataka" },
             ].map((edu) => (
-              <div key={edu.school} className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-all duration-300">
-                <p className="text-sm font-semibold text-foreground">{edu.degree}</p>
-                <p className="text-sm text-accent mt-0.5">{edu.school}</p>
-                <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground mono">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{edu.location}</span>
-                  <span>{edu.year}</span>
+              <div key={edu.school} className="p-4 rounded-lg border border-border bg-card transition-all duration-300">
+                <p className="text-sm font-semibold text-foreground leading-snug">{edu.degree}</p>
+                <p className="text-sm text-accent mt-1">{edu.school}</p>
+                <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground mono">
+                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3 shrink-0" />{edu.location}</span>
+                  <span className="font-semibold">{edu.year}</span>
                 </div>
               </div>
             ))}
@@ -301,17 +305,17 @@ const Index = () => {
         </section>
 
         {/* ── Certifications ──────────────────────────────────────────────────── */}
-        <section className="mb-12">
+        <section className="mb-10 sm:mb-12">
           <SectionHeading icon={Award} title="Certifications & Achievements" />
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {certifications.map((c) => (
-              <div key={c.title} className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-all group duration-300">
-                <div className="flex items-start gap-2">
-                  <Award className="w-4 h-4 text-primary shrink-0 mt-0.5 group-hover:text-accent transition-colors" />
+              <div key={c.title} className="p-4 rounded-lg border border-border bg-card transition-all duration-300">
+                <div className="flex items-start gap-3">
+                  <Award className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">{c.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{c.issuer}</p>
-                    <p className="text-xs text-primary/70 mono mt-1">{c.org}</p>
+                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.issuer}</p>
+                    <p className="text-xs text-primary/70 mono mt-1.5">{c.org}</p>
                   </div>
                 </div>
               </div>
@@ -324,7 +328,7 @@ const Index = () => {
           <SectionHeading icon={Languages} title="Languages" />
           <div className="flex flex-wrap gap-2">
             {["English", "Hindi", "Kannada", "Telugu", "Marathi"].map((lang) => (
-              <span key={lang} className="px-3 py-1.5 rounded-md border border-border bg-card text-sm text-secondary-foreground hover:border-primary/40 hover:text-primary transition-all duration-200 mono">
+              <span key={lang} className="px-4 py-2.5 rounded-md border border-border bg-card text-sm text-secondary-foreground mono min-h-[44px] flex items-center">
                 {lang}
               </span>
             ))}
@@ -333,13 +337,16 @@ const Index = () => {
 
         {/* ── Footer ──────────────────────────────────────────────────────────── */}
         <footer className="text-center pt-6 border-t border-border/40">
-          <p className="text-xs text-muted-foreground mono">
+          <a
+            href="https://github.com/pavan-ambekar"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground mono hover:text-primary active:text-primary transition-colors py-2 px-3 rounded-md min-h-[44px]"
+          >
             <span className="text-primary/60">{"// "}</span>
-            Built with React · Source on{" "}
-            <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
-              GitHub <ExternalLink className="w-3 h-3" />
-            </a>
-          </p>
+            Built with React · GitHub
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </footer>
 
       </div>
