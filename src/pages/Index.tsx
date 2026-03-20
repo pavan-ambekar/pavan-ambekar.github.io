@@ -275,8 +275,8 @@ const Index = () => {
         <section className="mb-12">
           <SectionHeading icon={Terminal} title="Professional Experience" />
           <div>
-            {experience.map((job, i) => (
-              <ExperienceCard key={job.company} job={job} index={i} />
+            {experience.map((job) => (
+              <ExperienceCard key={job.company} job={job} />
             ))}
           </div>
         </section>
