@@ -207,46 +207,49 @@ const Index = () => {
       <div className="fixed top-0 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
       <div className="fixed bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-4xl mx-auto px-4 py-12 sm:px-8">
+      <div className="relative max-w-4xl mx-auto px-4 py-8 sm:px-6 sm:py-12">
 
         {/* ── Header ────────────────────────────────────────────────────────── */}
-        <header className="mb-12">
+        <header className="mb-10 sm:mb-12">
           {/* Prompt prefix */}
-          <div className="mono text-sm text-primary/60 mb-3 flex items-center gap-2">
-            <Terminal className="w-4 h-4" />
-            <span>~/pavan-ambekar</span>
-            <span className="text-muted-foreground">$</span>
-            <span className="text-foreground">cat resume.json</span>
+          <div className="mono text-xs sm:text-sm text-primary/60 mb-3 flex items-center gap-2 overflow-hidden">
+            <Terminal className="w-4 h-4 shrink-0" />
+            <span className="truncate">~/pavan-ambekar <span className="text-muted-foreground">$</span> cat resume.json</span>
           </div>
 
-          <div className="p-6 rounded-xl border border-primary/20 bg-card glow-primary">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-1">
-                  <span className="text-gradient-primary">Pavan Ambekar</span>
-                </h1>
-                <p className="text-base font-semibold text-accent mono tracking-wide">Senior Full Stack Engineer</p>
-                <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5" /> Bengaluru, India
-                </p>
-              </div>
-              <div className="flex flex-col gap-1.5 text-sm mono">
-                <a href="mailto:pavan.ambekarr@gmail.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Mail className="w-3.5 h-3.5" /> pavan.ambekarr@gmail.com
-                </a>
-                <a href="tel:+919036696269" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Phone className="w-3.5 h-3.5" /> +91 9036696269
-                </a>
-                <a href="https://linkedin.com/in/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Linkedin className="w-3.5 h-3.5" /> linkedin.com/in/pavan-ambekar
-                </a>
-                <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                  <Github className="w-3.5 h-3.5" /> github.com/pavan-ambekar
-                </a>
-              </div>
+          <div className="p-4 sm:p-6 rounded-xl border border-primary/20 bg-card glow-primary">
+            {/* Name block — full width on mobile */}
+            <div className="mb-4">
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-1">
+                <span className="text-gradient-primary">Pavan Ambekar</span>
+              </h1>
+              <p className="text-sm sm:text-base font-semibold text-accent mono tracking-wide">Senior Full Stack Engineer</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 shrink-0" /> Bengaluru, India
+              </p>
             </div>
 
-            <Separator className="my-4 bg-border/60" />
+            {/* Contact links — 2-col grid on mobile for better touch targets */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 mb-4">
+              <a href="mailto:pavan.ambekarr@gmail.com" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Mail className="w-4 h-4 shrink-0" />
+                <span className="truncate">pavan.ambekarr@gmail.com</span>
+              </a>
+              <a href="tel:+919036696269" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>+91 9036696269</span>
+              </a>
+              <a href="https://linkedin.com/in/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Linkedin className="w-4 h-4 shrink-0" />
+                <span className="truncate">linkedin.com/in/pavan-ambekar</span>
+              </a>
+              <a href="https://github.com/pavan-ambekar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 py-2 px-1 rounded-md text-sm mono text-muted-foreground hover:text-primary active:text-primary transition-colors min-h-[44px]">
+                <Github className="w-4 h-4 shrink-0" />
+                <span>github.com/pavan-ambekar</span>
+              </a>
+            </div>
+
+            <Separator className="my-3 bg-border/60" />
 
             <p className="text-sm leading-relaxed text-secondary-foreground">
               Senior Full Stack Engineer with{" "}
