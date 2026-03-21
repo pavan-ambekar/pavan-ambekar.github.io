@@ -328,7 +328,6 @@ const Index = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 mb-4">
               {[
                 { href: "mailto:pavan.ambekarr@gmail.com", icon: Mail, label: "pavan.ambekarr@gmail.com" },
-                { href: "tel:+919036696269", icon: Phone, label: "+91 9036696269" },
                 { href: "https://linkedin.com/in/pavan-ambekar", icon: Linkedin, label: "linkedin.com/in/pavan-ambekar" },
                 { href: "https://github.com/pavan-ambekar", icon: Github, label: "github.com/pavan-ambekar" },
               ].map(({ href, icon: Icon, label }) => (
