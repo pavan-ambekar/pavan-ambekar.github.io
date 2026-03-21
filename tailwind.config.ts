@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Retro gaming palette tokens
+        "pixel-green": "hsl(var(--pixel-green))",
+        "pixel-amber": "hsl(var(--pixel-amber))",
+        "pixel-cyan": "hsl(var(--pixel-cyan))",
+        "pixel-magenta": "hsl(var(--pixel-magenta))",
+        "pixel-red": "hsl(var(--pixel-red))",
+        "pixel-blue": "hsl(var(--pixel-blue))",
       },
       borderRadius: {
         lg: "var(--radius)",

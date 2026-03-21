@@ -2,54 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap');
 
 @layer base {
   :root {
-    --background: 220 20% 7%;
-    --foreground: 210 20% 92%;
+    --background: 240 33% 5%;
+    --foreground: 120 100% 80%;
 
-    --card: 220 18% 10%;
-    --card-foreground: 210 20% 92%;
+    --card: 240 25% 8%;
+    --card-foreground: 120 100% 80%;
 
-    --popover: 220 18% 10%;
-    --popover-foreground: 210 20% 92%;
+    --popover: 240 25% 8%;
+    --popover-foreground: 120 100% 80%;
 
-    --primary: 165 80% 55%;
-    --primary-foreground: 220 20% 7%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 240 33% 5%;
 
-    --secondary: 220 15% 16%;
-    --secondary-foreground: 210 20% 75%;
+    --secondary: 240 20% 14%;
+    --secondary-foreground: 120 60% 70%;
 
-    --muted: 220 15% 14%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 240 20% 11%;
+    --muted-foreground: 120 30% 45%;
 
-    --accent: 200 85% 60%;
-    --accent-foreground: 220 20% 7%;
+    --accent: 55 100% 60%;
+    --accent-foreground: 240 33% 5%;
 
-    --destructive: 0 72% 55%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 55%;
+    --destructive-foreground: 120 100% 80%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 16%;
-    --ring: 165 80% 55%;
+    --border: 120 60% 25%;
+    --input: 240 20% 14%;
+    --ring: 120 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
-    /* Custom tokens */
-    --glow-primary: 165 80% 55%;
-    --glow-accent: 200 85% 60%;
-    --terminal-green: 142 76% 52%;
-    --highlight: 48 95% 65%;
+    /* Retro custom tokens */
+    --pixel-green: 120 100% 50%;
+    --pixel-amber: 38 100% 55%;
+    --pixel-cyan: 180 100% 55%;
+    --pixel-magenta: 300 100% 65%;
+    --pixel-red: 0 100% 55%;
+    --pixel-blue: 220 100% 65%;
+    --crt-glow: 0 0 8px hsl(120 100% 50% / 0.9), 0 0 20px hsl(120 100% 50% / 0.4), 0 0 40px hsl(120 100% 50% / 0.15);
+    --amber-glow: 0 0 8px hsl(38 100% 55% / 0.9), 0 0 20px hsl(38 100% 55% / 0.4);
 
-    --sidebar-background: 220 18% 10%;
-    --sidebar-foreground: 210 20% 92%;
-    --sidebar-primary: 165 80% 55%;
-    --sidebar-primary-foreground: 220 20% 7%;
-    --sidebar-accent: 220 15% 16%;
-    --sidebar-accent-foreground: 210 20% 75%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 165 80% 55%;
+    --sidebar-background: 240 25% 8%;
+    --sidebar-foreground: 120 100% 80%;
+    --sidebar-primary: 120 100% 50%;
+    --sidebar-primary-foreground: 240 33% 5%;
+    --sidebar-accent: 240 20% 14%;
+    --sidebar-accent-foreground: 120 60% 70%;
+    --sidebar-border: 120 60% 25%;
+    --sidebar-ring: 120 100% 50%;
   }
 }
 
@@ -60,38 +64,161 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Share Tech Mono', monospace;
+    image-rendering: pixelated;
   }
 
-  code, .mono {
-    font-family: 'JetBrains Mono', monospace;
+  h1, h2, h3 {
+    font-family: 'Press Start 2P', monospace;
   }
 }
 
+/* ── CRT / Retro Effects ────────────────────────────────── */
 @layer utilities {
-  .glow-primary {
-    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.25);
+  .crt-screen {
+    position: relative;
   }
-  .glow-accent {
-    box-shadow: 0 0 20px hsl(var(--glow-accent) / 0.25);
-  }
-  .text-gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .border-glow {
-    border-color: hsl(var(--primary) / 0.4);
-    box-shadow: 0 0 12px hsl(var(--primary) / 0.15);
-  }
-  .scanline {
+  .crt-screen::before {
+    content: '';
+    position: fixed;
+    inset: 0;
     background: repeating-linear-gradient(
       0deg,
       transparent,
       transparent 2px,
-      hsl(var(--primary) / 0.015) 2px,
-      hsl(var(--primary) / 0.015) 4px
+      hsl(var(--primary) / 0.03) 2px,
+      hsl(var(--primary) / 0.03) 4px
     );
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .crt-screen::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, hsl(240 33% 3% / 0.7) 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  .pixel-border {
+    border: 2px solid hsl(var(--primary));
+    box-shadow:
+      inset -2px -2px 0 hsl(120 100% 20%),
+      inset 2px 2px 0 hsl(120 100% 80%/0.3),
+      var(--crt-glow);
+  }
+
+  .pixel-border-amber {
+    border: 2px solid hsl(var(--pixel-amber));
+    box-shadow:
+      inset -2px -2px 0 hsl(38 100% 25%),
+      inset 2px 2px 0 hsl(38 100% 80%/0.3),
+      var(--amber-glow);
+  }
+
+  .pixel-border-dim {
+    border: 2px solid hsl(var(--border));
+    box-shadow: inset -2px -2px 0 hsl(120 60% 10%), inset 2px 2px 0 hsl(120 60% 35%/0.2);
+  }
+
+  .text-glow-green {
+    color: hsl(var(--primary));
+    text-shadow: var(--crt-glow);
+  }
+
+  .text-glow-amber {
+    color: hsl(var(--pixel-amber));
+    text-shadow: var(--amber-glow);
+  }
+
+  .text-glow-cyan {
+    color: hsl(var(--pixel-cyan));
+    text-shadow: 0 0 8px hsl(180 100% 55% / 0.9), 0 0 20px hsl(180 100% 55% / 0.4);
+  }
+
+  .blink {
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .pixel-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--muted));
+    color: hsl(var(--pixel-cyan));
+    box-shadow: 1px 1px 0 hsl(120 60% 15%), -1px -1px 0 hsl(120 100% 60%/0.15);
+  }
+
+  .hp-bar {
+    height: 8px;
+    background: hsl(240 20% 14%);
+    border: 1px solid hsl(var(--border));
+    box-shadow: inset 1px 1px 0 hsl(0 0% 0%/0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .hp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(120 100% 35%), hsl(120 100% 55%));
+    box-shadow: 0 0 6px hsl(120 100% 50%/0.8);
+  }
+
+  .retro-card {
+    background: hsl(var(--card));
+    border: 2px solid hsl(var(--border));
+    box-shadow:
+      inset -2px -2px 0 hsl(120 60% 10%),
+      inset 2px 2px 0 hsl(120 100% 60%/0.1),
+      0 4px 0 hsl(0 0% 0%/0.5);
+  }
+
+  .retro-card:hover {
+    border-color: hsl(var(--primary));
+    box-shadow:
+      inset -2px -2px 0 hsl(120 60% 15%),
+      inset 2px 2px 0 hsl(120 100% 60%/0.2),
+      0 4px 0 hsl(0 0% 0%/0.5),
+      var(--crt-glow);
+  }
+
+  .marquee-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: hsl(var(--pixel-amber));
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .star-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, hsl(120 100% 60%/0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 40%, hsl(120 100% 60%/0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 20%, hsl(38 100% 60%/0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 70%, hsl(120 100% 60%/0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 85%, hsl(180 100% 60%/0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 45%, hsl(120 100% 60%/0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 60%, hsl(38 100% 60%/0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 10%, hsl(120 100% 60%/0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 55%, hsl(120 100% 60%/0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 75%, hsl(180 100% 60%/0.4) 0%, transparent 100%);
   }
 }
