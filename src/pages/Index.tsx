@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  MapPin, Mail, Phone, Linkedin, Github, ExternalLink,
+  MapPin, Mail, Linkedin, Github, ExternalLink,
   Terminal, Code2, Server, Database, Cloud, Shield, Brain,
   ChevronRight, Award, GraduationCap, Languages, Cpu
 } from "lucide-react";
