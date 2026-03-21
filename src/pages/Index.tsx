@@ -256,8 +256,19 @@ function ExperienceCard({ job }: { job: typeof experience[0] }) {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 const Index = () => {
+  const [started, setStarted] = useState(false);
+
   return (
-    <div className="min-h-screen bg-background crt-screen relative">
+    <>
+      {!started && <SplashScreen onStart={() => setStarted(true)} />}
+    <div
+      className="min-h-screen bg-background crt-screen relative"
+      style={{
+        transition: "opacity 0.5s ease",
+        opacity: started ? 1 : 0,
+        pointerEvents: started ? "auto" : "none",
+      }}
+    >
       <div className="star-field" />
 
       {/* Marquee ticker */}
