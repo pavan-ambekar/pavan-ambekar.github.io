@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -5,6 +6,7 @@ import {
   Terminal, Code2, Server, Database, Cloud, Shield, Brain,
   ChevronRight, Award, GraduationCap, Languages, Cpu
 } from "lucide-react";
+import SplashScreen from "@/components/SplashScreen";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const skills = [
